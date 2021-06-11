@@ -1,0 +1,17 @@
+trigger:
+- main
+
+pool:
+  vmImage: windows-latest
+
+# This isn't probably enough but have some pipeline
+steps:
+- task: CmdLine@2
+  inputs: 
+    script: 'start /WAIT Unity.exe -batchmode -quit -projectPath "C:\BuildAgent\_work\1\s" -buildTarget WebGL -executeMethod Game.CICD.AzureDevOps.Build --BuildOutputDirectory "C:\BuildAgent\_work\1\a\Build"'
+
+# Publish build artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: C:\BuildAgent\_work\1\a\Build
+    artifactName: 'drop' 
